@@ -58,30 +58,37 @@ DOMAnimateProperty.animate({
 
 Animates `property` of a given element.
 
-Options:
-
-#### {HTMLElement} el
+#### `{HTMLElement} el`
 
 The element to animate.
 
-#### {int} start
+#### `{int} start`
 
 The start value of the property.
 
-#### {int} end
+#### `{int} end`
 
 The end value of the property.
 
-#### {object=} options
+#### `{object=} options`
 
-Optional parameter. Transition (animation) duration in milliseconds. Defaults to 400ms.
+An optional map of parameters:
 
-##### Options
+###### `{string} unit`
 
-###### unit
-###### duration
-###### easing
-###### onDone
+Unit of value. (Default: `"px"`)
+
+###### `{integer} duration`
+
+Animation duration in milliseconds. (Default: `400`)
+
+###### `{array} easing`
+
+An array to pass to the cubic-bezier easing function. (Default: `DOMAnimateProperty.EASE_IN_OUT`)
+
+###### `{function} onDone`
+
+A callback function that is called when the animation is finished.
 
 ## Constants
 
