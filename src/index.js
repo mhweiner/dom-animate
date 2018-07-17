@@ -58,6 +58,7 @@ export default class DOMAnimateProperty {
       throw 'el is required and must be an object';
 
     }
+    options = options || {};
     options.unit = options.unit || 'px';
     options.duration = options.duration === undefined ? 400 : options.duration;
     options.easing = options.easing || DOMAnimateProperty.EASE_IN_OUT;
