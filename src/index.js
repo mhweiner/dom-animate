@@ -53,14 +53,14 @@ export default class DOMAnimateProperty {
     let that = this;
 
     //defaults
-    if (typeof options.el !== 'object') {
+    if (typeof el !== 'object') {
 
       throw 'el is required and must be an object';
 
     }
     options.unit = options.unit || 'px';
     options.duration = options.duration === undefined ? 400 : options.duration;
-    options.easing = options.easing || Index.EASE_IN_OUT;
+    options.easing = options.easing || DOMAnimateProperty.EASE_IN_OUT;
 
     let easingFunction = BezierEasing.apply(undefined, options.easing);
 
@@ -70,13 +70,13 @@ export default class DOMAnimateProperty {
 
     function applyStyle(pos) {
 
-      options.el.style[options.property] = pos + options.unit;
+      el.style[property] = pos + options.unit;
 
     }
 
     let startTime = Date.now();
     let endTime = startTime + options.duration;
-    let totalDelta = options.end - options.start;
+    let totalDelta = end - start;
 
     function tick() {
 
@@ -90,7 +90,7 @@ export default class DOMAnimateProperty {
       let timeElapsed = currentTime - startTime;
       let percentageTimeElapsed = timeElapsed / options.duration;
       let percentageChange = easingFunction(percentageTimeElapsed);
-      let nextPos = percentageChange * totalDelta + options.start;
+      let nextPos = percentageChange * totalDelta + start;
 
       // update element
       applyStyle(nextPos);
@@ -103,7 +103,7 @@ export default class DOMAnimateProperty {
       } else {
 
         //done!
-        applyStyle(options.end);
+        applyStyle(end);
 
         if (typeof options.onDone === 'function') {
 
