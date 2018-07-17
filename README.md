@@ -102,4 +102,4 @@ A callback function that is called when the animation is finished.
 
 ## Contribution
 
-DO IT! PR's welcome. Need to add testing, linting, and support for `scrollX`, or both x/y at the same time.
+DO IT! PR's welcome. Need to add testing and linting.
