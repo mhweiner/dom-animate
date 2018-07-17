@@ -44,13 +44,18 @@ animator.cancel();
 
 ## API
 
-### `animate({HTMLElement} el, {string} property, {number} start, {number} end, {object=} options)`
+### `animate({HTMLElement} el, {string} styleProperty, {number} start, {number} end, {object=} options)`
 
-Animates `property` of a given element.
+Performs the animation on `el`.
 
 #### `{HTMLElement} el`
 
 The element to animate.
+
+#### `{string}` styleProperty
+
+The style property to animate. If you are using `options.customPropertyUpdate`, this parameter will be ignored. In that
+case, feel free to pass `null` for this parameter.
 
 #### `{int} start`
 
@@ -82,8 +87,9 @@ A callback function that is called when the animation is finished.
 
 ###### `{function} customPropertyUpdate(el, pos, unit)`
 
-A custom function to use for updating the element during the keyframe. This function takes 3 parameters: it is passed
-the original `el`, the next `pos`, and whatever `options.unit` was passed. See the example above.
+If you are not trying to animate a property on `el.style`, then a custom function to use for updating the element will
+be required. This function takes 3 parameters: it is passed the original `el`, the next `pos`, and whatever
+`options.unit` was passed. See the example above.
 
 ### `cancel()`
 
