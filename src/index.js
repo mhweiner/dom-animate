@@ -60,7 +60,7 @@ export default class DOMAnimateProperty {
     }
     options.unit = options.unit || 'px';
     options.duration = options.duration === undefined ? 400 : options.duration;
-    options.easing = options.easing || DOMAnimateProperty.EASE_IN_OUT;
+    options.easing = options.easing || Index.EASE_IN_OUT;
 
     let easingFunction = BezierEasing.apply(undefined, options.easing);
 

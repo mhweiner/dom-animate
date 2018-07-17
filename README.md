@@ -16,10 +16,12 @@ npm i dom-animate-property
 ```javascript
 let DOMAnimateProperty = require('dom-animate-property'); //or you can use import, too
 
+let animator = new DOMAnimateProperty();
+
 let el = document.querySelector('.myElement');
 
 //animate height from 0 to 200
-DOMAnimateProperty.animate({
+animator.animate({
   el: el,
   property: 'height',
   start: 0,
@@ -27,7 +29,7 @@ DOMAnimateProperty.animate({
 });
 
 // Animate height from 0 to 200, with a duration of 200ms, a custom cubic-bezier easing function, and callback
-DOMAnimateProperty.animate({
+animator.animate({
   el: el,
   property: 'height',
   start: 0,
@@ -40,7 +42,7 @@ DOMAnimateProperty.animate({
 });
 
 // Animate width from 0 to 100 and pre-defined easing function
-DOMAnimateProperty.animate({
+animator.animate({
   el: el,
   property: 'width',
   start: 0,
@@ -49,6 +51,10 @@ DOMAnimateProperty.animate({
     easing: DOMAnimateProperty.EASE_OUT
   }
 });
+
+// Cancel animation
+
+animator.cancel();
 
 ```
 
@@ -89,6 +95,10 @@ An array to pass to the cubic-bezier easing function. (Default: `DOMAnimatePrope
 ###### `{function} onDone`
 
 A callback function that is called when the animation is finished.
+
+### `cancel()`
+
+Stops the animation.
 
 ## Constants
 
