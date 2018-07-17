@@ -1,16 +1,14 @@
-# smooth-scroll-operator
-A dead simple and lightweight smooth scroll animation. Scroll any element. Comes with bezier curve support and a small library of pre-defined easing functions.
+# dom-animate-property
+Smoothly animates any property on a DOM HTMLElement. Bezier curve support & pre-defined easing functions.
 
 Animations respect the actual clock, so no matter the frame rate, the animation will still properly last the appropriate amount of time.
 
 Animations are performed using `window.requestAnimationFrame`.
 
-No need to ask, he's a [smooth operator](https://www.youtube.com/watch?v=4TYv2PhG89A)...
-
 ## Installation
 
 ```bash
-npm i smooth-scroll-operator
+npm i dom-animate-property
 ```
 
 ## Example Usage
