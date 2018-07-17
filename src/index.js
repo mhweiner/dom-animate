@@ -35,18 +35,14 @@ export default class DOMAnimateProperty {
   }
 
   /**
-   * Animate scrolling element to position. Possible options:
-   * [string=] unit (default: 'px')
-   * [int=] duration (default: 400)
-   * [array=] easing (default: DOMAnimateProperty.EASE_IN_OUT)
-   * [function=] onDone (default: null)
+   * Animate scrolling element to position.
    * @param {HTMLElement} el
-   * @param {string} property
+   * @param {string} styleProperty
    * @param {number} start
    * @param {number} end
-   * @param {object} options
+   * @param {object=} options
    */
-  animate(el, property, start, end, options) {
+  animate(el, styleProperty, start, end, options) {
 
     this.isRunning = true;
 
@@ -71,7 +67,7 @@ export default class DOMAnimateProperty {
 
     function applyStyle(pos) {
 
-      el.style[property] = pos + options.unit;
+      el.style[styleProperty] = pos + options.unit;
 
     }
 
@@ -94,7 +90,16 @@ export default class DOMAnimateProperty {
       let nextPos = percentageChange * totalDelta + start;
 
       // update element
-      applyStyle(nextPos);
+      if (typeof options.customPropertyUpdate === 'function') {
+
+        options.customPropertyUpdate(el, nextPos, options.unit);
+
+      } else {
+
+        applyStyle(nextPos);
+
+      }
+
 
       // do the animation unless its over
       if (currentTime < endTime) {

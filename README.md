@@ -21,35 +21,19 @@ let animator = new DOMAnimateProperty();
 let el = document.querySelector('.myElement');
 
 //animate height from 0 to 200
-animator.animate({
-  el: el,
-  property: 'height',
-  start: 0,
-  end: 200
-});
+animator.animate(el, 'height', 0, 200);
 
 // Animate height from 0 to 200, with a duration of 200ms, a custom cubic-bezier easing function, and callback
-animator.animate({
-  el: el,
-  property: 'height',
-  start: 0,
-  end: 200,
-  options: {
-    duration: 200,
-    easing: [0.42, 0.0, 0.58, 1.0],
-    onDone: () => alert('done!')
-  }
+animator.animate(el, 'height', 0, 200, {
+  duration: 200,
+  easing: [0.42, 0.0, 0.58, 1.0],
+  onDone: () => alert('done!')
 });
 
-// Animate width from 0 to 100 and pre-defined easing function
-animator.animate({
-  el: el,
-  property: 'width',
-  start: 0,
-  end: 100,
-  options: {
-    easing: DOMAnimateProperty.EASE_OUT
-  }
+// Custom property update function. Animate scrollTop (not a style property) from 0 to 1000 and pre-defined easing function
+animator.animate(el, null, 0, 1000, {
+  easing: DOMAnimateProperty.EASE_OUT,
+  customPropertyUpdate: (el, pos) => { el.scrollTop = pos; }
 });
 
 // Cancel animation
@@ -95,6 +79,11 @@ An array to pass to the cubic-bezier easing function. (Default: `DOMAnimatePrope
 ###### `{function} onDone`
 
 A callback function that is called when the animation is finished.
+
+###### `{function} customPropertyUpdate(el, pos, unit)`
+
+A custom function to use for updating the element during the keyframe. This function takes 3 parameters: it is passed
+the original `el`, the next `pos`, and whatever `options.unit` was passed. See the example above.
 
 ### `cancel()`
 
