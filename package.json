@@ -1,0 +1,30 @@
+{
+  "name": "dom-animate-property",
+  "description": "A dead simple and lightweight smooth scroll animation utility. Scroll any element. Comes with bezier curve support and a small library of pre-defined easing functions. Animations respect clock.",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mhweiner/dom-animate-property.git"
+  },
+  "keywords": [],
+  "author": "Marc H. Weiner (http://mhweiner.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mhweiner/dom-animate-property/issues"
+  },
+  "homepage": "https://github.com/mhweiner/dom-animate-property",
+  "dependencies": {
+    "bezier-easing": "^2.0.3"
+  },
+  "devDependencies": {
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-prod": "webpack index=./src/index.js --output-path='./dist' --output-filename='smooth-scroll-operator.production.min.js' --mode production",
+    "build-dev": "webpack index=./src/index.js --output-path='./dist' --output-filename='smooth-scroll-operator.development.js' --mode development",
+    "build": "npm run build-prod && npm run build-dev"
+  }
+}
