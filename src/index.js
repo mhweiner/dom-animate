@@ -91,7 +91,11 @@ export default class DOMAnimateProperty {
       let nextPos = percentageChange * totalDelta + start;
 
       //precision
-      nextPos = +nextPos.toFixed(options.precision);
+      if (typeof options.precision !== undefined) {
+
+        nextPos = +nextPos.toFixed(options.precision);
+
+      }
 
       // update element
       if (typeof options.customPropertyUpdate === 'function') {

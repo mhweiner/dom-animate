@@ -24,11 +24,11 @@ let el = document.querySelector('.myElement');
 animator.animate(el, 'height', 0, 200);
 
 // Animate translateX from 0 to 200, duration of 200ms, custom cubic-bezier easing function, callback,
-// and precision of 2 decimal places.
+// and precision of 0 decimal places (round to nearest integer).
 animator.animate(el, null, 0, 200, {
   duration: 200,
   easing: [0.42, 0.0, 0.58, 1.0],
-  precision: 2,
+  precision: 0,
   onDone: () => alert('done!'),
   customPropertyUpdate: (el, pos) => el.style.transform = `translateX(${pos}px)`
 });
@@ -85,6 +85,10 @@ An optional map of parameters:
 ###### `{string} unit`
 
 Unit of value. (Default: `"px"`)
+
+###### `{integer} precision`
+
+Number of decimal places to round to. (Default: `null`)
 
 ###### `{integer} duration`
 
