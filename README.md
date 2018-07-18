@@ -33,11 +33,9 @@ animator.animate(el, null, 0, 200, {
   customPropertyUpdate: (el, pos) => el.style.transform = `translateX(${pos}px)`
 });
 
-// Animate scale (with cross-browser support) from 1 to 2, pre-defined cubic-bezier easing
-// function, and precision of .00001
+// Animate scale (with cross-browser support) from 1 to 2, and pre-defined cubic-bezier easing
 animator.animate(el, null, 1, 2, {
   easing: DOMAnimateProperty.EASE_OUT,
-  precision: 5,
   customPropertyUpdate: (el, pos) => {
     el.style.transform = `scale(${pos}, ${pos})`;
     el.style.webkitTransform = `scale(${pos}, ${pos})`;
@@ -50,7 +48,6 @@ animator.animate(el, 'fontSize', 1, 50, {
 });
 
 // Cancel animation
-
 animator.cancel();
 
 ```
