@@ -11,10 +11,10 @@ Animations are performed using `window.requestAnimationFrame`.
 npm i dom-animate-property
 ```
 
-## Example Usage
+## Example Usage (ES6)
 
 ```javascript
-let DOMAnimateProperty = require('dom-animate-property'); //or you can use import, too
+import DOMAnimateProperty from 'dom-animate-property'; //require also works
 
 let animator = new DOMAnimateProperty();
 
@@ -23,17 +23,30 @@ let el = document.querySelector('.myElement');
 //animate height from 0 to 200
 animator.animate(el, 'height', 0, 200);
 
-// Animate height from 0 to 200, with a duration of 200ms, a custom cubic-bezier easing function, and callback
-animator.animate(el, 'height', 0, 200, {
+// Animate translateX from 0 to 200, duration of 200ms, custom cubic-bezier easing function, callback,
+// and precision of 2 decimal places.
+animator.animate(el, null, 0, 200, {
   duration: 200,
   easing: [0.42, 0.0, 0.58, 1.0],
-  onDone: () => alert('done!')
+  precision: 2,
+  onDone: () => alert('done!'),
+  customPropertyUpdate: (el, pos) => el.style.transform = `translateX(${pos}px)`
 });
 
-// Custom property update function. Animate scrollTop (not a style property) from 0 to 1000 and pre-defined easing function
-animator.animate(el, null, 0, 1000, {
+// Animate scale (with cross-browser support) from 1 to 2, pre-defined cubic-bezier easing function, and precision of 5
+// decimal places
+animator.animate(el, null, 1, 2, {
   easing: DOMAnimateProperty.EASE_OUT,
-  customPropertyUpdate: (el, pos) => { el.scrollTop = pos; }
+  precision: 5,
+  customPropertyUpdate: (el, pos) => {
+    el.style.transform = `scale(${pos}, ${pos})`;
+    el.style.webkitTransform = `scale(${pos}, ${pos})`;
+  }
+});
+
+// Animate font-size in em units from 1 to 50.
+animator.animate(el, 'fontSize', 1, 50, {
+  unit: 'em',
 });
 
 // Cancel animation

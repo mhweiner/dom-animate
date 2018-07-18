@@ -56,6 +56,7 @@ export default class DOMAnimateProperty {
     }
     options = options || {};
     options.unit = options.unit || 'px';
+    options.precision = typeof options.precision === undefined ? 0 : options.precision;
     options.duration = options.duration === undefined ? 400 : options.duration;
     options.easing = options.easing || DOMAnimateProperty.EASE_IN_OUT;
 
@@ -88,6 +89,9 @@ export default class DOMAnimateProperty {
       let percentageTimeElapsed = timeElapsed / options.duration;
       let percentageChange = easingFunction(percentageTimeElapsed);
       let nextPos = percentageChange * totalDelta + start;
+
+      //precision
+      nextPos = +nextPos.toFixed(options.precision);
 
       // update element
       if (typeof options.customPropertyUpdate === 'function') {
