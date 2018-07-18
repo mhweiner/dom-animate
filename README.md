@@ -23,8 +23,8 @@ let el = document.querySelector('.myElement');
 //animate height from 0 to 200
 animator.animate(el, 'height', 0, 200);
 
-// Animate translateX from 0 to 200, duration of 200ms, custom cubic-bezier easing function, callback,
-// and precision of 0 decimal places (round to nearest integer).
+// Animate translateX from 0 to 200, duration of 200ms, custom cubic-bezier easing function,
+// callback, and precision of 0 decimal places (round to nearest integer).
 animator.animate(el, null, 0, 200, {
   duration: 200,
   easing: [0.42, 0.0, 0.58, 1.0],
@@ -33,8 +33,8 @@ animator.animate(el, null, 0, 200, {
   customPropertyUpdate: (el, pos) => el.style.transform = `translateX(${pos}px)`
 });
 
-// Animate scale (with cross-browser support) from 1 to 2, pre-defined cubic-bezier easing function, and precision of 5
-// decimal places
+// Animate scale (with cross-browser support) from 1 to 2, pre-defined cubic-bezier easing
+// function, and precision of .00001
 animator.animate(el, null, 1, 2, {
   easing: DOMAnimateProperty.EASE_OUT,
   precision: 5,
