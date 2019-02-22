@@ -117,7 +117,16 @@ export default class DOMAnimateProperty {
       } else {
 
         //done!
-        applyStyle(end);
+
+        if (typeof options.customPropertyUpdate === 'function') {
+
+          options.customPropertyUpdate(el, end, options.unit);
+
+        } else {
+
+          applyStyle(end);
+
+        }
 
         if (typeof options.onDone === 'function') {
 
