@@ -18,39 +18,59 @@ npm i dom-animate
 ```javascript
 import animate from 'dom-animate'; //require also works
 
-let animation = new animate();
-
 let el = document.querySelector('.myElement');
 
-//animate height from 0 to 200
-animator.animate(el, 'height', 0, 200);
+//animate height from 0 to 200 with all defaults
+let animation = new animate(0, 200, (x) => {
+  el.style.height = x + 'px';
+});
 
-// Animate translateX from 0 to 200, duration of 200ms, custom cubic-bezier easing function,
-// callback, and precision of 0 decimal places (round to nearest integer).
-animator.animate(el, null, 0, 200, {
+//animate scale (with cross-browser support) from 1 to 2 with some options
+let animation = new animate(1, 2, x => {
+  el.style.transform = `scale(${x}, ${x})`;
+  el.style.webkitTransform = `scale(${x}, ${x})`;
+}, {
   duration: 200,
   easing: [0.42, 0.0, 0.58, 1.0],
   precision: 0,
-  onDone: () => alert('done!'),
-  customPropertyUpdate: (el, pos) => el.style.transform = `translateX(${pos}px)`
+  onDone: () => alert('done!')
 });
 
-// Animate scale (with cross-browser support) from 1 to 2, and pre-defined cubic-bezier easing
-animator.animate(el, null, 1, 2, {
-  easing: DOMAnimateProperty.EASE_OUT,
-  customPropertyUpdate: (el, pos) => {
-    el.style.transform = `scale(${pos}, ${pos})`;
-    el.style.webkitTransform = `scale(${pos}, ${pos})`;
-  }
-});
+//stop animation
+animation.stop();
 
-// Animate font-size in em units from 1 to 50.
-animator.animate(el, 'fontSize', 1, 50, {
-  unit: 'em',
-});
+//restart animation after stopping
+animation.play();
 
-// Cancel animation
-animator.cancel();
+//pause animation
+animation.pause();
+
+//resume animation after pausing
+animation.resume();
+
+//don't animate right away. create animation, then play after 1s, then pause after 1s, then resume after 1, 
+//then stop after 1s.
+let animation = new animate(0, 200, (x) => {
+  el.style.height = x + 'px';
+}, {
+  autoStart: false
+});
+setTimeout(() => {
+  animate.play();
+  setTimeout(() => {
+    animate.pause();
+    setTimeout(() => {
+      animate.resume();
+      setTimeout(() => {
+        animate.stop();
+      }, 1000);
+    }, 1000);
+  }, 1000);
+}, 1000);
+
+
+
+
 
 ```
 
