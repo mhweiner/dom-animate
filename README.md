@@ -1,22 +1,24 @@
-# dom-animate-property
-Smoothly animates any property on a DOM HTMLElement. Bezier curve support & pre-defined easing functions.
+# dom-animate
+Helper function to smoothly do any animation in the DOM. Bezier curve support & pre-defined easing functions.
 
 Animations respect the actual clock, so no matter the frame rate, the animation will still properly last the appropriate amount of time.
+
+Ability to pause and resume or cancel animations.
 
 Animations are performed using `window.requestAnimationFrame`.
 
 ## Installation
 
 ```bash
-npm i dom-animate-property
+npm i dom-animate
 ```
 
 ## Example Usage (ES6)
 
 ```javascript
-import DOMAnimateProperty from 'dom-animate-property'; //require also works
+import animate from 'dom-animate'; //require also works
 
-let animator = new DOMAnimateProperty();
+let animation = new animate();
 
 let el = document.querySelector('.myElement');
 

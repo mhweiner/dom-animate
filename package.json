@@ -1,11 +1,11 @@
 {
-  "name": "dom-animate-property",
+  "name": "dom-animate",
   "description": "Animates a property on a DOM HTMLElement. Bezier curve support & pre-defined easing functions. Animations respect clock.",
   "version": "1.4.3",
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mhweiner/dom-animate-property.git"
+    "url": "https://github.com/mhweiner/dom-animate.git"
   },
   "keywords": [],
   "author": "Marc H. Weiner (http://mhweiner.com)",
