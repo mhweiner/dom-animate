@@ -1,6 +1,6 @@
 {
   "name": "dom-animate",
-  "description": "Helper function to do animations in DOM or other environments. Bezier curve support. Animations respect clock. Pause, resume, and cancel.",
+  "description": "Dead-simple helper function to do animations in DOM or other environments. Bezier curve support. Animations respect clock. Pause, resume, and cancel. Custom timing and render functions.",
   "version": "2.0.0",
   "main": "src/index.js",
   "repository": {

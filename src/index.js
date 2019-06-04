@@ -1,75 +1,6 @@
 import BezierEasing from 'bezier-easing';
 
-export default class DOMAnimate {
-
-  /**
-   * @param {number} start
-   * @param {number} end
-   * @param {function} lambda
-   * @param {object=} options
-   */
-  constructor(start, end, lambda, options) {
-
-    this.isRunning = false;
-    this.start = start;
-    this.end = end;
-    this.options = options || {};
-
-    //default options
-    this.options.precision = this.options.precision === undefined ? 0 : this.options.precision;
-    this.options.duration = this.options.duration === undefined ? 400 : this.options.duration;
-    this.options.easing = this.options.easing || DOMAnimate.EASE_IN_OUT;
-
-    //easing
-    this.easingFunction = BezierEasing.apply(undefined, this.options.easing);
-
-    //timing function
-    this.timingFunction = this.options.timingFunction ||
-      window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      function( callback ){ window.setTimeout(callback, 1000 / 60); };
-
-
-    //start animation
-    if (!this.options.autoplay) {
-
-      this.start();
-
-    }
-
-  }
-
-  raf = (() => {
-    return  window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      function( callback ){ window.setTimeout(callback, 1000 / 60); };
-  })();
-
-
-
-  stop = () => {
-
-    this.isRunning = false;
-
-  };
-
-  start = () => {
-
-    tick();
-
-  };
-
-  pause = () => {
-
-
-  };
-
-  resume = () => {
-
-
-  };
+export default class Animator {
 
   static get EASE() {
     return [0.25, 0.1, 0.25, 1.0];
@@ -97,71 +28,100 @@ export default class DOMAnimate {
    * @param {function} lambda
    * @param {object=} options
    */
-  animate = (start, end, lambda, options) => {
+  constructor(start, end, lambda, options) {
 
-    this.isRunning = true;
+    this.isRunning = false;
+    this.start = start;
+    this.end = end;
+    this.lambda = lambda;
 
+    //options
     options = options || {};
-    options.precision = options.precision === undefined ? 0 : options.precision;
-    options.duration = options.duration === undefined ? 400 : options.duration;
-    options.easing = options.easing || DOMAnimate.EASE_IN_OUT;
+    this.precision = options.precision === undefined ? 0 : options.precision;
+    this.duration = options.duration === undefined ? 400 : options.duration;
+    this.easing = options.easing || DOMAnimate.EASE_IN_OUT;
+    this.easingFunction = BezierEasing.apply(undefined, this.easing);
+    this.onComplete = options.onComplete || function(){};
+    this.timingFunction = options.timingFunction ||
+      window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      function( callback ){ window.setTimeout(callback, 1000 / 60); };
 
-    let easingFunction = BezierEasing.apply(undefined, options.easing);
+    //start animation
+    if (!options.autoplay) {
 
-    let raf = (function(){
-      return  window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function( callback ){ window.setTimeout(callback, 1000 / 60); };
-    })();
+      this.start();
 
-    let startTime = Date.now();
-    let endTime = startTime + options.duration;
-    let totalDelta = end - start;
-
-    let tick = () => {
-
-      if (!this.isRunning) {
-
-        return;
-
-      }
-
-      let currentTime = Date.now();
-      let timeElapsed = currentTime - startTime;
-      let percentageTimeElapsed = timeElapsed / options.duration;
-      let percentageChange = easingFunction(percentageTimeElapsed);
-      let nextPos = percentageChange * totalDelta + start;
-
-      //precision
-      if (options.precision !== undefined) {
-
-        nextPos = +nextPos.toFixed(options.precision);
-
-      }
-
-      //call lambda
-      lambda.call(undefined, nextPos);
-
-      // do the animation unless its over
-      if (currentTime < endTime) {
-
-        raf(tick);
-
-      } else {
-
-        //done!
-
-        //call lambda
-        lambda.call(undefined, end);
-
-        if (options && options.onComplete === 'function') {
-
-          options.onComplete.apply();
-
-        }
-
-      }
-
-    };
+    }
 
   }
+
+  stop = () => {
+
+    this.isRunning = false;
+    this.startTime = null;
+    this.endTime = null;
+
+  };
+
+  start = () => {
+
+    this.isRunning = true;
+    this.startTime = Date.now();
+    this.endTime = this.startTime + this.duration;
+    this.tick();
+
+  };
+
+  pause = () => {
+
+    this.isRunning = false;
+    this.timeEllapsedBeforePause = Date.now() - this.startTime;
+
+  };
+
+  resume = () => {
+
+    this.isRunning = true;
+    this.startTime = Date.now() - this.timeEllapsedBeforePause;
+    this.endTime = this.startTime + this.duration;
+    this.tick();
+
+  };
+
+  tick = () => {
+
+    if (!this.isRunning) {
+
+      return;
+
+    }
+
+    let now = Date.now();
+    let timeElapsed = now - this.startTime;
+    let percentageTimeElapsed = timeElapsed / this.duration;
+    let percentageChange = this.easingFunction(percentageTimeElapsed);
+    let nextPos = percentageChange * this.duration + this.start;
+
+    nextPos = nextPos.toFixed(this.precision);
+
+    //call lambda
+    this.lambda.call(undefined, nextPos);
+
+    if (now < this.endTime) {
+
+      //next tick
+      this.timingFunction(this.tick);
+
+    } else {
+
+      //animation finished
+      this.lambda.call(undefined, this.end);
+      this.onComplete.apply();
+
+    }
+
+  };
 
 }

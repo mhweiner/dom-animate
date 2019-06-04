@@ -112,14 +112,14 @@ A callback function that is called when the animation is finished.
 
 ###### `{function} timingFunction`
 
-Lambda function that is used to call the `renderFrame()` function. By default, if in a browser
+Lambda function that is used to call the `tick()` method. By default, if in a browser
 environment, this will be `window.requestAnimationFrame`, `window.webkitRequestAnimationFrame`,
 etc. If your environment doesn't support these methods, and you don't provide your own,
 a default timing function will be used that is called at 60fps.
 
 ### `play()`
 
-Ends any current animation and starts the animation from the beginning. 
+Starts the animation.
 
 ### `stop()`
 
