@@ -1,6 +1,5 @@
 # dom-animate
-Dead-simple helper function to perform any animation in the DOM or other environments 
-(ie, React Native). 
+Dead-simple helper function to perform any animation in the DOM or other environments.
 
 Features:
 
@@ -140,15 +139,7 @@ Resumes any current animation.
 
 `EASE`, `EASE_IN`, `EASE_OUT`, `EASE_IN_OUT`, `LINEAR`
 
-## Additional Notes
-
-When in a browser environment, the script uses `window.requestAnimationFrame` at the best 
-possible frame rate if supported. You can also provide your own timing function. Can be used 
-outside of browser and web development. You provide your own render function that does the
-actual rendering.
-
-To make sure you are performing the most browser-optimized animation, the following are great 
-resources:
+## Additional Resources
 
 - [Jank Free](http://jankfree.org/)
 - [CSS Tricks article](https://css-tricks.com/tale-of-animation-performance/)
