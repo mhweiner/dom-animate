@@ -81,7 +81,7 @@ The start value of the animation.
 
 The end value of the animation.
 
-### `{function} lambda({number} x)`
+#### `{function} lambda({number} x)`
 
 The function that sets the styles on frame update. `x` is a number that 
 represents the current frame's animation value.

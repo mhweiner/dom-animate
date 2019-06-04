@@ -1,6 +1,6 @@
 {
   "name": "dom-animate",
-  "description": "Animates a property on a DOM HTMLElement. Bezier curve support & pre-defined easing functions. Animations respect clock.",
+  "description": "Helper function to do animations in DOM or other environments. Bezier curve support. Animations respect clock. Pause, resume, and cancel.",
   "version": "2.0.0",
   "main": "src/index.js",
   "repository": {
