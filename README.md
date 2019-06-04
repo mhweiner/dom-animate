@@ -1,11 +1,15 @@
 # dom-animate
-Helper function to smoothly do any animation in the DOM. Bezier curve support & pre-defined easing functions.
+Dead-simple helper function to perform any animation in the DOM or other environments 
+(ie, React Native). 
 
-Animations respect the actual clock, so no matter the frame rate, the animation will still properly last the appropriate amount of time.
+Features:
 
-Ability to pause and resume or cancel animations.
-
-Animations are performed using `window.requestAnimationFrame`.
+✅ Really small filesize, only 1 dependency.
+✅ Supports Beizer Curves and custom easing functions, with predefined values.
+✅ Custom timing function (uses RAF by default if available)
+✅ Custom render function
+✅ Pause/resume/stop/restart animations.
+✅ Animations respect the actual clock, so no matter the frame rate, the animation will still properly last the appropriate amount of time.
 
 ## Installation
 
@@ -16,24 +20,24 @@ npm i dom-animate
 ## Example Usage (ES6)
 
 ```javascript
-import animate from 'dom-animate'; //require also works
+import Animator from 'dom-animate'; //require also works
 
 let el = document.querySelector('.myElement');
 
 //animate height from 0 to 200 with all defaults
-let animation = new animate(0, 200, (x) => {
+let animation = new Animator(0, 200, (x) => {
   el.style.height = x + 'px';
 });
 
 //animate scale (with cross-browser support) from 1 to 2 with some options
-let animation = new animate(1, 2, x => {
+let animation = new Animator(1, 2, x => {
   el.style.transform = `scale(${x}, ${x})`;
   el.style.webkitTransform = `scale(${x}, ${x})`;
 }, {
   duration: 200,
   easing: [0.42, 0.0, 0.58, 1.0],
   precision: 0,
-  onDone: () => alert('done!')
+  onComplete: () => alert('done!')
 });
 
 //stop animation
@@ -48,62 +52,48 @@ animation.pause();
 //resume animation after pausing
 animation.resume();
 
-//don't animate right away. create animation, then play after 1s, then pause after 1s, then resume after 1, 
-//then stop after 1s.
-let animation = new animate(0, 200, (x) => {
+//don't animate right away. create animation, then play after 1s
+let animation = new Animator(0, 200, (x) => {
   el.style.height = x + 'px';
 }, {
-  autoStart: false
+  autoplay: false
 });
-setTimeout(() => {
-  animate.play();
-  setTimeout(() => {
-    animate.pause();
-    setTimeout(() => {
-      animate.resume();
-      setTimeout(() => {
-        animate.stop();
-      }, 1000);
-    }, 1000);
-  }, 1000);
-}, 1000);
 
+setTimeout(animation.play, 1000);
 
-
-
-
+//provide a custom timing function instead of the default `window.requestAnimationFrame`
+//in this example, it tries to render at exactly 24fps
+let animation = new Animator(0, 200, (x) => {
+  el.style.height = x + 'px';
+}, {
+  timingFunction: callback => { window.setTimeout(callback, 1000 / 24); }
+});
 ```
 
 ## API
 
-### `animate({HTMLElement} el, {string} styleProperty, {number} start, {number} end, {object=} options)`
-
-Performs the animation on `el`.
-
-#### `{HTMLElement} el`
-
-The element to animate.
-
-#### `{string}` styleProperty
-
-The style property to animate. If you are using `options.customPropertyUpdate`, this parameter will be ignored. In that
-case, feel free to pass `null` for this parameter.
+### `animate({number} start, {number} end, {function} lamda, {object=} options)`
 
 #### `{int} start`
 
-The start value of the property.
+The start value of the animation.
 
 #### `{int} end`
 
-The end value of the property.
+The end value of the animation.
+
+### `{function} lambda({number} x)`
+
+The function that sets the styles on frame update. `x` is a number that 
+represents the current frame's animation value.
 
 #### `{object=} options`
 
 An optional map of parameters:
 
-###### `{string} unit`
+###### `{boolean} autoplay`
 
-Unit of value. (Default: `"px"`)
+If true, the animation will start as soon as `animation()` is called. [Default: `true`]
 
 ###### `{integer} precision`
 
@@ -115,27 +105,54 @@ Animation duration in milliseconds. (Default: `400`)
 
 ###### `{array} easing`
 
-An array to pass to the cubic-bezier easing function. (Default: `DOMAnimateProperty.EASE_IN_OUT`)
+An array to pass to the cubic-bezier easing function. (Default: `Animator.EASE_IN_OUT`)
 
-###### `{function} onDone`
+###### `{function} onComplete`
 
 A callback function that is called when the animation is finished.
 
-###### `{function} customPropertyUpdate(el, pos, unit)`
+###### `{function} timingFunction`
 
-If you are not trying to animate a property on `el.style`, then a custom function to use for updating the element will
-be required. This function takes 3 parameters: it is passed the original `el`, the next `pos`, and whatever
-`options.unit` was passed. See the example above.
+Lambda function that is used to call the `renderFrame()` function. By default, if in a browser
+environment, this will be `window.requestAnimationFrame`, `window.webkitRequestAnimationFrame`,
+etc. If your environment doesn't support these methods, and you don't provide your own,
+a default timing function will be used that is called at 60fps.
 
-### `cancel()`
+### `play()`
 
-Stops the animation.
+Ends any current animation and starts the animation from the beginning. 
+
+### `stop()`
+
+Ends any current animation.
+
+### `pause()`
+
+Pauses any current animation.
+
+### `resume()`
+
+Resumes any current animation.
 
 ## Constants
 
 ### Bezier Curve Easing Functions
 
 `EASE`, `EASE_IN`, `EASE_OUT`, `EASE_IN_OUT`, `LINEAR`
+
+## Additional Notes
+
+When in a browser environment, the script uses `window.requestAnimationFrame` at the best 
+possible frame rate if supported. You can also provide your own timing function. Can be used 
+outside of browser and web development. You provide your own render function that does the
+actual rendering.
+
+To make sure you are performing the most browser-optimized animation, the following are great 
+resources:
+
+- [Jank Free](http://jankfree.org/)
+- [CSS Tricks article](https://css-tricks.com/tale-of-animation-performance/)
+- [CSS Tricks](https://css-tricks.com)
 
 ## License
 

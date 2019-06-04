@@ -1,18 +1,75 @@
 import BezierEasing from 'bezier-easing';
 
-export default class DOMAnimateProperty {
+export default class DOMAnimate {
 
-  constructor() {
+  /**
+   * @param {number} start
+   * @param {number} end
+   * @param {function} lambda
+   * @param {object=} options
+   */
+  constructor(start, end, lambda, options) {
 
     this.isRunning = false;
+    this.start = start;
+    this.end = end;
+    this.options = options || {};
+
+    //default options
+    this.options.precision = this.options.precision === undefined ? 0 : this.options.precision;
+    this.options.duration = this.options.duration === undefined ? 400 : this.options.duration;
+    this.options.easing = this.options.easing || DOMAnimate.EASE_IN_OUT;
+
+    //easing
+    this.easingFunction = BezierEasing.apply(undefined, this.options.easing);
+
+    //timing function
+    this.timingFunction = this.options.timingFunction ||
+      window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      function( callback ){ window.setTimeout(callback, 1000 / 60); };
+
+
+    //start animation
+    if (!this.options.autoplay) {
+
+      this.start();
+
+    }
 
   }
 
-  cancel() {
+  raf = (() => {
+    return  window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      function( callback ){ window.setTimeout(callback, 1000 / 60); };
+  })();
+
+
+
+  stop = () => {
 
     this.isRunning = false;
 
-  }
+  };
+
+  start = () => {
+
+    tick();
+
+  };
+
+  pause = () => {
+
+
+  };
+
+  resume = () => {
+
+
+  };
 
   static get EASE() {
     return [0.25, 0.1, 0.25, 1.0];
@@ -35,30 +92,19 @@ export default class DOMAnimateProperty {
   }
 
   /**
-   * Animate scrolling element to position.
-   * @param {HTMLElement} el
-   * @param {string} styleProperty
    * @param {number} start
    * @param {number} end
+   * @param {function} lambda
    * @param {object=} options
    */
-  animate(el, styleProperty, start, end, options) {
+  animate = (start, end, lambda, options) => {
 
     this.isRunning = true;
 
-    let that = this;
-
-    //defaults
-    if (typeof el !== 'object') {
-
-      throw 'el is required and must be an object';
-
-    }
     options = options || {};
-    options.unit = options.unit || 'px';
-    options.precision = typeof options.precision === undefined ? 0 : options.precision;
+    options.precision = options.precision === undefined ? 0 : options.precision;
     options.duration = options.duration === undefined ? 400 : options.duration;
-    options.easing = options.easing || DOMAnimateProperty.EASE_IN_OUT;
+    options.easing = options.easing || DOMAnimate.EASE_IN_OUT;
 
     let easingFunction = BezierEasing.apply(undefined, options.easing);
 
@@ -66,19 +112,13 @@ export default class DOMAnimateProperty {
       return  window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function( callback ){ window.setTimeout(callback, 1000 / 60); };
     })();
 
-    function applyStyle(pos) {
-
-      el.style[styleProperty] = pos + options.unit;
-
-    }
-
     let startTime = Date.now();
     let endTime = startTime + options.duration;
     let totalDelta = end - start;
 
-    function tick() {
+    let tick = () => {
 
-      if (!that.isRunning) {
+      if (!this.isRunning) {
 
         return;
 
@@ -91,23 +131,14 @@ export default class DOMAnimateProperty {
       let nextPos = percentageChange * totalDelta + start;
 
       //precision
-      if (typeof options.precision !== undefined) {
+      if (options.precision !== undefined) {
 
         nextPos = +nextPos.toFixed(options.precision);
 
       }
 
-      // update element
-      if (typeof options.customPropertyUpdate === 'function') {
-
-        options.customPropertyUpdate(el, nextPos, options.unit);
-
-      } else {
-
-        applyStyle(nextPos);
-
-      }
-
+      //call lambda
+      lambda.call(undefined, nextPos);
 
       // do the animation unless its over
       if (currentTime < endTime) {
@@ -118,28 +149,18 @@ export default class DOMAnimateProperty {
 
         //done!
 
-        if (typeof options.customPropertyUpdate === 'function') {
+        //call lambda
+        lambda.call(undefined, end);
 
-          options.customPropertyUpdate(el, end, options.unit);
+        if (options && options.onComplete === 'function') {
 
-        } else {
-
-          applyStyle(end);
-
-        }
-
-        if (typeof options.onDone === 'function') {
-
-          options.onDone.apply();
+          options.onComplete.apply();
 
         }
 
       }
 
-    }
-
-    //start animation
-    tick();
+    };
 
   }
 
