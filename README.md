@@ -4,11 +4,11 @@ Dead-simple helper function to perform any animation in the DOM or other environ
 
 Features:
 
-✅ Really small filesize, only 1 dependency.
-✅ Supports Beizer Curves and custom easing functions, with predefined values.
-✅ Custom timing function (uses RAF by default if available)
-✅ Custom render function
-✅ Pause/resume/stop/restart animations.
+✅ Really small filesize, only 1 dependency. 
+✅ Supports Beizer Curves and custom easing functions, with predefined values. 
+✅ Custom timing function (uses RAF by default if available) 
+✅ Custom render function 
+✅ Pause/resume/stop/restart animations. 
 ✅ Animations respect the actual clock, so no matter the frame rate, the animation will still properly last the appropriate amount of time.
 
 ## Installation
