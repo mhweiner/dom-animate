@@ -22,6 +22,16 @@ browser:
 
 You can use either `dist/dom-animate.umd.js` or `dist/dom-animate.min.umd.js` in a `script` tag.
 
+```bash
+<script src="./path/to/dom-animate.min.umd.js"></script>
+```
+
+```javascript
+let animation = new DOMAnimate(0, 200, (x) => {
+  el.style.height = x + 'px';
+});
+```
+
 ## Example Usage (ES6)
 
 ```javascript

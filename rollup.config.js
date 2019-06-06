@@ -9,7 +9,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      name: 'domAnimate',
+      name: 'DOMAnimate',
       file: pkg.browser,
       format: 'umd'
     },
