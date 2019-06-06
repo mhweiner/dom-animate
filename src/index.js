@@ -114,4 +114,7 @@ function Animator(startValue, endValue, lambda, options) {
 
 }
 
-module.exports = { Animator, EASING_CONSTANTS };
+function DOMAnimator() {}
+DOMAnimator.EASING_CONSTANTS = EASING_CONSTANTS;
+DOMAnimator.Animator = Animator;
+module.exports = DOMAnimator;
