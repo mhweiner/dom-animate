@@ -46,6 +46,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "build": "rollup -c",
-    "publish": "np"
+    "release": "np"
   }
 }
