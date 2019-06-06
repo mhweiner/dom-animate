@@ -31,8 +31,8 @@ export default class Animator {
   constructor(startValue, endValue, lambda, options) {
 
     this.isRunning = false;
-    this.startValue = start;
-    this.endValue = end;
+    this.startValue = startValue;
+    this.endValue = endValue;
     this.lambda = lambda;
 
     //options

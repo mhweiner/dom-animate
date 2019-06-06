@@ -21,7 +21,7 @@ npm i dom-animate
 
 browser:
 
-You can use either `dist/dom-animate.umd.js` or `dist/dom-animate.min.umd.js` 
+You can use either `dom-animate.umd.js` or `dom-animate.min.umd.js` 
 [from the latest release](https://github.com/mhweiner/dom-animate/releases) in a `script` tag.
 This includes all dependencies.
 
