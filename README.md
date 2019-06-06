@@ -20,7 +20,7 @@ npm i dom-animate
 
 browser:
 
-You can use either `dist/dom-animate.umd.js` or `dist/dom-animate.min.umd.js` in a `script` tag.
+You can use either `dist/dom-animate.umd.js` or `dist/dom-animate.min.umd.js` [from the latest release](https://github.com/mhweiner/dom-animate/releases) in a `script` tag.
 
 ```html
 <script src="./path/to/dom-animate.min.umd.js"></script>
