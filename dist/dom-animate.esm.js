@@ -66,15 +66,15 @@ function () {
       return [0.00, 0.0, 1.00, 1.0];
     }
     /**
-     * @param {number} start
-     * @param {number} end
+     * @param {number} startValue
+     * @param {number} endValue
      * @param {function} lambda
      * @param {object=} options
      */
 
   }]);
 
-  function Animator(start, end, lambda, options) {
+  function Animator(startValue, endValue, lambda, options) {
     var _this = this;
 
     _classCallCheck(this, Animator);
@@ -117,7 +117,7 @@ function () {
 
       var percentageChange = _this.easingFunction(percentageTimeElapsed);
 
-      var nextPos = percentageChange * _this.duration + _this.start;
+      var nextPos = percentageChange * _this.duration + _this.startValue;
       nextPos = nextPos.toFixed(_this.precision); //call lambda
 
       _this.lambda.call(undefined, nextPos);
@@ -127,15 +127,15 @@ function () {
         _this.timingFunction(_this.tick);
       } else {
         //animation finished
-        _this.lambda.call(undefined, _this.end);
+        _this.lambda.call(undefined, _this.endValue);
 
         _this.onComplete.apply();
       }
     });
 
     this.isRunning = false;
-    this.start = start;
-    this.end = end;
+    this.startValue = start;
+    this.endValue = end;
     this.lambda = lambda; //options
 
     options = options || {};
