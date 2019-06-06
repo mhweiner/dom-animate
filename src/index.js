@@ -112,7 +112,7 @@ export default class Animator {
     if (now < this.endTime) {
 
       //next tick
-      this.timingFunction(this.tick);
+      this.timingFunction.call(window, this.tick);
 
     } else {
 
