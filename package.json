@@ -1,7 +1,7 @@
 {
   "name": "dom-animate",
   "description": "Dead-simple helper function to do animations in DOM or other environments. Bezier curve support. Animations respect clock. Pause, resume, and cancel. Custom timing and render functions.",
-  "version": "4.0.9",
+  "version": "4.0.10",
   "main": "dist/dom-animate.cjs.js",
   "module": "dist/dom-animate.esm.js",
   "browser": "dist/dom-animate.umd.js",
