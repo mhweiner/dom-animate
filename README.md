@@ -12,14 +12,20 @@ Features:
 
 ## Installation
 
+NPM:
+
 ```bash
 npm i dom-animate
 ```
 
+browser:
+
+You can use either `dist/dom-animate.umd.js` or `dist/dom-animate.min.umd.js` in a `script` tag.
+
 ## Example Usage (ES6)
 
 ```javascript
-import Animator from 'dom-animate'; //require also works
+import Animator from 'dom-animate';
 
 let el = document.querySelector('.myElement');
 

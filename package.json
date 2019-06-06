@@ -2,12 +2,26 @@
   "name": "dom-animate",
   "description": "Dead-simple helper function to do animations in DOM or other environments. Bezier curve support. Animations respect clock. Pause, resume, and cancel. Custom timing and render functions.",
   "version": "2.0.0",
-  "main": "src/index.js",
+  "main": "dist/dom-animate.cjs.js",
+  "module": "dist/dom-animate.esm.js",
+  "browser": "dist/dom-animate.umd.js",
+  "browser_production": "dist/dom-animate.min.umd.js",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/mhweiner/dom-animate.git"
   },
-  "keywords": [],
+  "keywords": [
+    "animate",
+    "animation",
+    "dom animation",
+    "react native animation",
+    "bezier",
+    "easing function",
+    "simple animation function"
+  ],
   "author": "Marc H. Weiner (http://mhweiner.com)",
   "license": "MIT",
   "bugs": {
@@ -15,14 +29,23 @@
   },
   "homepage": "https://github.com/mhweiner/dom-animate",
   "dependencies": {
-    "bezier-easing": "2.0.3"
+    "bezier-easing": "2.0.3",
+    "rollup-plugin-uglify": "^6.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "babel-cli": "^6.26.0",
+    "np": "^5.0.2",
+    "rollup": "^1.14.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-prod": "webpack index=./src/index.js --output-path='./dist' --output-filename='dom-animate-property.production.min.js' --mode production",
-    "build-dev": "webpack index=./src/index.js --output-path='./dist' --output-filename='dom-animate-property.development.js' --mode development",
-    "build": "npm run build-prod && npm run build-dev"
+    "test": "echo \"Error: no test specified\"",
+    "build": "rollup -c",
+    "publish": "np"
   }
 }
