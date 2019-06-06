@@ -39,7 +39,7 @@ export default class Animator {
     options = options || {};
     this.precision = options.precision === undefined ? 0 : options.precision;
     this.duration = options.duration === undefined ? 400 : options.duration;
-    this.easing = options.easing || DOMAnimate.EASE_IN_OUT;
+    this.easing = options.easing || Animator.EASE_IN_OUT;
     this.easingFunction = BezierEasing.apply(undefined, this.easing);
     this.onComplete = options.onComplete || function(){};
     this.timingFunction = options.timingFunction ||
