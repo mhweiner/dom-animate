@@ -3,12 +3,13 @@ Dead-simple helper function to perform any animation in the DOM or other environ
 
 Features:
 
-- Really small filesize, only 1 dependency. 
+- Really small filesize, only 1 dependency (<3KB uncompressed, including dependency). 
 - Supports Beizer Curves and custom easing functions, with predefined values. 
 - Custom timing function (uses RAF by default if available) 
 - Custom render function 
 - Pause/resume/stop/restart animations. 
 - Animations respect the actual clock, so no matter the frame rate, the animation will still properly last the appropriate amount of time.
+- UMD/CommonJS/ES compatible
 
 ## Installation
 
@@ -20,7 +21,9 @@ npm i dom-animate
 
 browser:
 
-You can use either `dist/dom-animate.umd.js` or `dist/dom-animate.min.umd.js` [from the latest release](https://github.com/mhweiner/dom-animate/releases) in a `script` tag.
+You can use either `dist/dom-animate.umd.js` or `dist/dom-animate.min.umd.js` 
+[from the latest release](https://github.com/mhweiner/dom-animate/releases) in a `script` tag.
+This includes all dependencies.
 
 ```html
 <script src="./path/to/dom-animate.min.umd.js"></script>
