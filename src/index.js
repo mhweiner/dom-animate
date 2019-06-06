@@ -1,128 +1,115 @@
-import BezierEasing from 'bezier-easing';
+/**
+ * https://github.com/mhweiner/dom-animate
+ * dom-animate - Dead-simple helper function to perform any animation in the DOM or other environments.
+ * @author Marc H. Weiner
+ * @license MIT
+ */
 
-export default class Animator {
+var BezierEasing = require('bezier-easing');
 
-  static get EASE() {
-    return [0.25, 0.1, 0.25, 1.0];
-  }
+function Animator(startValue, endValue, lambda, options) {
 
-  static get EASE_IN() {
-    return [0.42, 0.0, 1.00, 1.0];
-  }
+  var _this = this;
 
-  static get EASE_OUT() {
-    return [0.00, 0.0, 0.58, 1.0];
-  }
+  this.EASE = [0.25, 0.1, 0.25, 1];
+  this.EASE_IN = [0.42, 0, 1, 1];
+  this.EASE_OUT = [0, 0, 0.58, 1];
+  this.EASE_IN_OUT = [0.42, 0, 0.58, 1];
+  this.LINEAR = [0, 0, 1, 1];
 
-  static get EASE_IN_OUT() {
-    return [0.42, 0.0, 0.58, 1.0];
-  }
+  this.isRunning = false;
+  this.startValue = startValue;
+  this.endValue = endValue;
+  this.lambda = lambda;
 
-  static get LINEAR() {
-    return [0.00, 0.0, 1.00, 1.0];
-  }
+  //options
+  options = options || {};
+  this.precision = options.precision === undefined ? 0 : options.precision;
+  this.duration = options.duration === undefined ? 400 : options.duration;
+  this.easing = options.easing || this.EASE_IN_OUT;
+  this.easingFunction = BezierEasing.apply(undefined, this.easing);
+  this.onComplete = options.onComplete || function(){};
+  this.timingFunction = options.timingFunction ||
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    function( callback ){ window.setTimeout(callback, 1000 / 60); };
 
-  /**
-   * @param {number} startValue
-   * @param {number} endValue
-   * @param {function} lambda
-   * @param {object=} options
-   */
-  constructor(startValue, endValue, lambda, options) {
+  //start animation
+  if (!options.autoplay) {
 
-    this.isRunning = false;
-    this.startValue = startValue;
-    this.endValue = endValue;
-    this.lambda = lambda;
-
-    //options
-    options = options || {};
-    this.precision = options.precision === undefined ? 0 : options.precision;
-    this.duration = options.duration === undefined ? 400 : options.duration;
-    this.easing = options.easing || Animator.EASE_IN_OUT;
-    this.easingFunction = BezierEasing.apply(undefined, this.easing);
-    this.onComplete = options.onComplete || function(){};
-    this.timingFunction = options.timingFunction ||
-      window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      function( callback ){ window.setTimeout(callback, 1000 / 60); };
-
-    //start animation
-    if (!options.autoplay) {
-
-      this.start();
-
-    }
+    this.start();
 
   }
 
-  stop = () => {
+  this.stop = function() {
 
-    this.isRunning = false;
-    this.startTime = null;
-    this.endTime = null;
+    _this.isRunning = false;
+    _this.startTime = null;
+    _this.endTime = null;
 
   };
 
-  start = () => {
+  this.start = function() {
 
-    this.isRunning = true;
-    this.startTime = Date.now();
-    this.endTime = this.startTime + this.duration;
-    this.tick();
-
-  };
-
-  pause = () => {
-
-    this.isRunning = false;
-    this.timeEllapsedBeforePause = Date.now() - this.startTime;
+    _this.isRunning = true;
+    _this.startTime = Date.now();
+    _this.endTime = _this.startTime + _this.duration;
+    _this.tick();
 
   };
 
-  resume = () => {
+  this.pause = function() {
 
-    this.isRunning = true;
-    this.startTime = Date.now() - this.timeEllapsedBeforePause;
-    this.endTime = this.startTime + this.duration;
-    this.tick();
+    _this.isRunning = false;
+    _this.timeEllapsedBeforePause = Date.now() - _this.startTime;
 
   };
 
-  tick = () => {
+  this.resume = function() {
 
-    if (!this.isRunning) {
+    _this.isRunning = true;
+    _this.startTime = Date.now() - _this.timeEllapsedBeforePause;
+    _this.endTime = _this.startTime + _this.duration;
+    _this.tick();
+
+  };
+
+  this.tick = function() {
+
+    if (!_this.isRunning) {
 
       return;
 
     }
 
     let now = Date.now();
-    let timeElapsed = now - this.startTime;
-    let percentageTimeElapsed = timeElapsed / this.duration;
-    let percentageChange = this.easingFunction(percentageTimeElapsed);
-    let distance = this.endValue - this.startValue;
-    let nextPos = percentageChange * distance + this.startValue;
+    let timeElapsed = now - _this.startTime;
+    let percentageTimeElapsed = timeElapsed / _this.duration;
+    let percentageChange = _this.easingFunction(percentageTimeElapsed);
+    let distance = _this.endValue - _this.startValue;
+    let nextPos = percentageChange * distance + _this.startValue;
 
-    nextPos = nextPos.toFixed(this.precision);
+    nextPos = nextPos.toFixed(_this.precision);
 
     //call lambda
-    this.lambda.call(undefined, nextPos);
+    _this.lambda.call(undefined, nextPos);
 
-    if (now < this.endTime) {
+    if (now < _this.endTime) {
 
       //next tick
-      this.timingFunction.call(window, this.tick);
+      _this.timingFunction.call(window, _this.tick);
 
     } else {
 
       //animation finished
-      this.lambda.call(undefined, this.endValue);
-      this.onComplete.apply();
+      _this.lambda.call(undefined, _this.endValue);
+      _this.onComplete.apply();
 
     }
 
   };
 
 }
+
+module.exports = Animator;
