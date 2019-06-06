@@ -9,7 +9,6 @@ Features:
 - Custom render function 
 - Pause/resume/stop/restart animations. 
 - Animations respect the actual clock, so no matter the frame rate, the animation will still properly last the appropriate amount of time.
-- UMD/CommonJS/ES compatible
 
 ## Installation
 
@@ -83,6 +82,59 @@ setTimeout(animation.play, 1000);
 //provide a custom timing function instead of the default `window.requestAnimationFrame`
 //in this example, it tries to render at exactly 24fps
 let animation = new Animator(0, 200, (x) => {
+  el.style.height = x + 'px';
+}, {
+  timingFunction: callback => { window.setTimeout(callback, 1000 / 24); }
+});
+```
+
+## Example Usage (ES5)
+
+```javascript
+var Animator = require('dom-animate');
+
+var el = document.querySelector('.myElement');
+
+//animate height from 0 to 200 with all defaults
+var animation = new Animator(0, 200, function(x) {
+  el.style.height = x + 'px';
+});
+
+//animate scale (with cross-browser support) from 1 to 2 with some options
+var animation = new Animator(1, 2, function(x) {
+  el.style.transform = `scale(${x}, ${x})`;
+  el.style.webkitTransform = `scale(${x}, ${x})`;
+}, {
+  duration: 200,
+  easing: [0.42, 0.0, 0.58, 1.0],
+  precision: 0,
+  onComplete: function() { alert('done!') }
+});
+
+//stop animation
+animation.stop();
+
+//restart animation after stopping
+animation.play();
+
+//pause animation
+animation.pause();
+
+//resume animation after pausing
+animation.resume();
+
+//don't animate right away. create animation, then play after 1s
+var animation = new Animator(0, 200, function(x) {
+  el.style.height = x + 'px';
+}, {
+  autoplay: false
+});
+
+setTimeout(animation.play, 1000);
+
+//provide a custom timing function instead of the default `window.requestAnimationFrame`
+//in this example, it tries to render at exactly 24fps
+var animation = new Animator(0, 200, function(x) {
   el.style.height = x + 'px';
 }, {
   timingFunction: callback => { window.setTimeout(callback, 1000 / 24); }

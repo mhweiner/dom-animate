@@ -83,12 +83,12 @@ function Animator(startValue, endValue, lambda, options) {
 
     }
 
-    let now = Date.now();
-    let timeElapsed = now - _this.startTime;
-    let percentageTimeElapsed = timeElapsed / _this.duration;
-    let percentageChange = _this.easingFunction(percentageTimeElapsed);
-    let distance = _this.endValue - _this.startValue;
-    let nextPos = percentageChange * distance + _this.startValue;
+    var now = Date.now();
+    var timeElapsed = now - _this.startTime;
+    var percentageTimeElapsed = timeElapsed / _this.duration;
+    var percentageChange = _this.easingFunction(percentageTimeElapsed);
+    var distance = _this.endValue - _this.startValue;
+    var nextPos = percentageChange * distance + _this.startValue;
 
     nextPos = nextPos.toFixed(_this.precision);
 
