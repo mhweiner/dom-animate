@@ -23,16 +23,16 @@ export default class Animator {
   }
 
   /**
-   * @param {number} start
-   * @param {number} end
+   * @param {number} startValue
+   * @param {number} endValue
    * @param {function} lambda
    * @param {object=} options
    */
-  constructor(start, end, lambda, options) {
+  constructor(startValue, endValue, lambda, options) {
 
     this.isRunning = false;
-    this.start = start;
-    this.end = end;
+    this.startValue = start;
+    this.endValue = end;
     this.lambda = lambda;
 
     //options
@@ -102,7 +102,7 @@ export default class Animator {
     let timeElapsed = now - this.startTime;
     let percentageTimeElapsed = timeElapsed / this.duration;
     let percentageChange = this.easingFunction(percentageTimeElapsed);
-    let nextPos = percentageChange * this.duration + this.start;
+    let nextPos = percentageChange * this.duration + this.startValue;
 
     nextPos = nextPos.toFixed(this.precision);
 
@@ -117,7 +117,7 @@ export default class Animator {
     } else {
 
       //animation finished
-      this.lambda.call(undefined, this.end);
+      this.lambda.call(undefined, this.endValue);
       this.onComplete.apply();
 
     }
