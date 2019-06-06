@@ -7,15 +7,17 @@
 
 var BezierEasing = require('bezier-easing');
 
+var EASING_CONSTANTS = {
+  EASE: [0.25, 0.1, 0.25, 1],
+  EASE_IN: [0.42, 0, 1, 1],
+  EASE_OUT: [0, 0, 0.58, 1],
+  EASE_IN_OUT: [0.42, 0, 0.58, 1],
+  LINEAR: [0, 0, 1, 1]
+};
+
 function Animator(startValue, endValue, lambda, options) {
 
   var _this = this;
-
-  this.EASE = [0.25, 0.1, 0.25, 1];
-  this.EASE_IN = [0.42, 0, 1, 1];
-  this.EASE_OUT = [0, 0, 0.58, 1];
-  this.EASE_IN_OUT = [0.42, 0, 0.58, 1];
-  this.LINEAR = [0, 0, 1, 1];
 
   this.isRunning = false;
   this.startValue = startValue;
@@ -26,7 +28,7 @@ function Animator(startValue, endValue, lambda, options) {
   options = options || {};
   this.precision = options.precision === undefined ? 0 : options.precision;
   this.duration = options.duration === undefined ? 400 : options.duration;
-  this.easing = options.easing || this.EASE_IN_OUT;
+  this.easing = options.easing || EASING_CONSTANTS.EASE_IN_OUT;
   this.easingFunction = BezierEasing.apply(undefined, this.easing);
   this.onComplete = options.onComplete || function(){};
   this.timingFunction = options.timingFunction ||
@@ -112,4 +114,4 @@ function Animator(startValue, endValue, lambda, options) {
 
 }
 
-module.exports = Animator;
+module.exports = { Animator, EASING_CONSTANTS };
