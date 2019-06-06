@@ -102,7 +102,8 @@ export default class Animator {
     let timeElapsed = now - this.startTime;
     let percentageTimeElapsed = timeElapsed / this.duration;
     let percentageChange = this.easingFunction(percentageTimeElapsed);
-    let nextPos = percentageChange * this.duration + this.startValue;
+    let distance = this.endValue - this.startValue;
+    let nextPos = percentageChange * distance + this.startValue;
 
     nextPos = nextPos.toFixed(this.precision);
 
