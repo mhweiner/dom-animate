@@ -7,7 +7,7 @@
 
 var BezierEasing = require('bezier-easing');
 
-var EASING_CONSTANTS = {
+var EASING = {
   EASE: [0.25, 0.1, 0.25, 1],
   EASE_IN: [0.42, 0, 1, 1],
   EASE_OUT: [0, 0, 0.58, 1],
@@ -115,6 +115,6 @@ function Animator(startValue, endValue, lambda, options) {
 }
 
 function DOMAnimate() {}
-DOMAnimate.EASING_CONSTANTS = EASING_CONSTANTS;
+DOMAnimate.EASING = EASING;
 DOMAnimate.Animator = Animator;
 module.exports = DOMAnimate;

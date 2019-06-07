@@ -35,20 +35,20 @@ This includes all dependencies.
 </script>
 ```
 
-## Example Usage (ESM)
+## Example Usage
 
 ```javascript
-import {Animator, EASING_CONSTANTS} from 'dom-animate';
+let DOMAnimate = require('dom-animate');
 
 let el = document.querySelector('.myElement');
 
 //animate height from 0 to 200 with all defaults
-let animation = new Animator(0, 200, x => {
+let animation = new DOMAnimate.Animator(0, 200, x => {
   el.style.height = x + 'px';
 });
 
 //animate scale (with cross-browser support) from 1 to 2 with some options
-let animation = new Animator(1, 2, x => {
+let animation = new DOMAnimate.Animator(1, 2, x => {
   el.style.transform = `scale(${x}, ${x})`;
   el.style.webkitTransform = `scale(${x}, ${x})`;
 }, {
@@ -59,7 +59,7 @@ let animation = new Animator(1, 2, x => {
 });
 
 //animate with pre-defined easing constant
-let animation = new Animator(0, 200, x => {
+let animation = new DOMAnimate.Animator(0, 200, x => {
   el.style.height = x + 'px';
 }, {
   easing: EASING_CONSTANTS.LINEAR
@@ -78,7 +78,7 @@ animation.pause();
 animation.resume();
 
 //don't animate right away. create animation, then play after 1s
-let animation = new Animator(0, 200, x => {
+let animation = new DOMAnimate.Animator(0, 200, x => {
   el.style.height = x + 'px';
 }, {
   autoplay: false
@@ -88,7 +88,7 @@ setTimeout(animation.play, 1000);
 
 //provide a custom timing function instead of the default `window.requestAnimationFrame`
 //in this example, it tries to render at exactly 24fps
-let animation = new Animator(0, 200, (x) => {
+let animation = new DOMAnimate.Animator(0, 200, (x) => {
   el.style.height = x + 'px';
 }, {
   timingFunction: callback => { window.setTimeout(callback, 1000 / 24); }
@@ -161,15 +161,15 @@ Resumes any current animation.
 
 ## Constants
 
-### `EASING_CONSTANTS`
+### `EASING`
 
 `dom-animate` ships with a small Bezier Curve library:
 
-- `EASING_CONSTANTS.EASE`
-- `EASING_CONSTANTS.EASE_IN`
-- `EASING_CONSTANTS.EASE_OUT`
-- `EASING_CONSTANTS.EASE_IN_OUT`
-- `EASING_CONSTANTS.LINEAR`
+- `EASING.EASE`
+- `EASING.EASE_IN`
+- `EASING.EASE_OUT`
+- `EASING.EASE_IN_OUT`
+- `EASING.LINEAR`
 
 ## Additional Resources
 
