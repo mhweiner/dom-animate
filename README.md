@@ -179,7 +179,7 @@ Resumes any current animation.
 
 ## License
 
-[MIT](https://github.com/mhweiner/mr-router/blob/master/LICENSE). Free to use in all your things!
+[MIT](https://github.com/mhweiner/dom-animate/blob/master/LICENSE). Free to use in all your things!
 
 ## Contribution
 
