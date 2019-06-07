@@ -25,7 +25,7 @@ You can use either `dom-animate.umd.js` or `dom-animate.min.umd.js`
 This includes all dependencies.
 
 ```html
-<script src="./path/to/dom-animate.min.umd.js"></script>
+<script src="dom-animate.min.umd.js"></script>
 <script>
     let el = document.querySelector('.myElement');
 
@@ -97,7 +97,7 @@ let animation = new DOMAnimate(0, 200, (x) => {
 
 ## API
 
-### `animate({number} start, {number} end, {function} lamda, {object=} options)`
+### `constructor({number} start, {number} end, {function} lamda, {object=} options)`
 
 #### `{int} start`
 
