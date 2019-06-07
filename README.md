@@ -3,7 +3,7 @@ Dead-simple helper function to perform any animation in the DOM or other environ
 
 Features:
 
-- Really small filesize, only 1 dependency (<3KB uncompressed, including dependency). 
+- Really small filesize, only 1 dependency (~2.5KB uncompressed, including dependency). 
 - Supports Beizer Curves and custom easing functions, with predefined values. 
 - Custom timing function (uses RAF by default if available) 
 - Custom render function 

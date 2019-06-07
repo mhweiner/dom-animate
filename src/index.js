@@ -37,13 +37,6 @@ function DOMAnimate(startValue, endValue, lambda, options) {
     window.mozRequestAnimationFrame ||
     function( callback ){ window.setTimeout(callback, 1000 / 60); };
 
-  //start animation
-  if (!options.autoplay) {
-
-    this.start();
-
-  }
-
   this.stop = function() {
 
     _this.isRunning = false;
@@ -111,6 +104,13 @@ function DOMAnimate(startValue, endValue, lambda, options) {
     }
 
   };
+
+  //start animation
+  if (!options.autoplay) {
+
+    this.start();
+
+  }
 
 }
 
