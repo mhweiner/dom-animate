@@ -35,7 +35,7 @@ This includes all dependencies.
 </script>
 ```
 
-## Example Usage
+## Example Usage (ESM)
 
 ```javascript
 import {Animator, EASING_CONSTANTS} from 'dom-animate';
@@ -161,7 +161,7 @@ Resumes any current animation.
 
 ## Constants
 
-### EASING_CONSTANTS
+### `EASING_CONSTANTS`
 
 `dom-animate` ships with a small Bezier Curve library:
 
