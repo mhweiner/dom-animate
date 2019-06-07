@@ -62,7 +62,7 @@ let animation = new DOMAnimate.Animator(1, 2, x => {
 let animation = new DOMAnimate.Animator(0, 200, x => {
   el.style.height = x + 'px';
 }, {
-  easing: EASING_CONSTANTS.LINEAR
+  easing: DOMAnimate.EASING.LINEAR
 });
 
 //stop animation
