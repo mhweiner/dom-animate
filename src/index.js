@@ -15,7 +15,7 @@ var EASING = {
   LINEAR: [0, 0, 1, 1]
 };
 
-function Animator(startValue, endValue, lambda, options) {
+function DOMAnimate(startValue, endValue, lambda, options) {
 
   var _this = this;
 
@@ -28,7 +28,7 @@ function Animator(startValue, endValue, lambda, options) {
   options = options || {};
   this.precision = options.precision === undefined ? 0 : options.precision;
   this.duration = options.duration === undefined ? 400 : options.duration;
-  this.easing = options.easing || EASING_CONSTANTS.EASE_IN_OUT;
+  this.easing = options.easing || EASING.EASE_IN_OUT;
   this.easingFunction = BezierEasing.apply(undefined, this.easing);
   this.onComplete = options.onComplete || function(){};
   this.timingFunction = options.timingFunction ||
@@ -114,7 +114,6 @@ function Animator(startValue, endValue, lambda, options) {
 
 }
 
-function DOMAnimate() {}
 DOMAnimate.EASING = EASING;
-DOMAnimate.Animator = Animator;
+
 module.exports = DOMAnimate;
