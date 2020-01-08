@@ -1,4 +1,4 @@
-# animate
+# dom-animate
 Dead-simple helper function to perform any animation in the DOM or other environments.
 
 Features:
