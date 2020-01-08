@@ -1,9 +1,10 @@
-# dom-animate
+# animate
 Dead-simple helper function to perform any animation in the DOM or other environments.
 
 Features:
 
 - Really small filesize, only 1 dependency (~2.5KB uncompressed, including dependency). 
+- Platform/environment agnostic. Implementation agnostic (you provide a lamda function).
 - Supports Beizer Curves and custom easing functions, with predefined values. 
 - Custom timing function (uses RAF by default if available) 
 - Custom render function 
