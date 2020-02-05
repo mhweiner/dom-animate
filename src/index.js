@@ -68,7 +68,7 @@ function DOMAnimate(startValue, endValue, lambda, options) {
 
     clearTimeout(_this.delayTimeout);
 
-    let timeElapsed = Date.now() - _this.delayStartTime;
+    var timeElapsed = Date.now() - _this.delayStartTime;
 
     _this.delayRemaining -= timeElapsed;
 
