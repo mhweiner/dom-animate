@@ -37,42 +37,136 @@ function DOMAnimate(startValue, endValue, lambda, options) {
     window.mozRequestAnimationFrame ||
     function( callback ){ window.setTimeout(callback, 1000 / 60); };
 
+
+  function endDelayAndContinue() {
+
+    _this.delayTimeout = null;
+    _this.delayEnded = true;
+    _this.delayRemaining = null;
+    _this.delayStartTime = null;
+    _this.play();
+
+  }
+
+  function startDelay() {
+
+    _this.delayStartTime = Date.now();
+    _this.delayTimeout = setTimeout(endDelayAndContinue, options.delay);
+
+  }
+
+  function stopDelay() {
+
+    clearTimeout(_this.delayTimeout);
+    _this.delayStartTime = null;
+    _this.delayRemaining = null;
+    _this.delayEnded = null;
+
+  }
+
+  function pauseDelay() {
+
+    clearTimeout(_this.delayTimeout);
+
+    let timeElapsed = Date.now() - _this.delayStartTime;
+
+    _this.delayRemaining -= timeElapsed;
+
+    if (_this.delayRemaining <= 0) {
+
+      _this.delayEnded = true;
+      _this.delayRemaining = null;
+      _this.delayStartTime = null;
+
+    }
+
+  }
+
+  function resumeDelay() {
+
+    if (_this.delayRemaining <= 0) {
+
+      endDelayAndContinue();
+
+    }
+
+    _this.delayStartTime = Date.now();
+
+    if (!_this.delayRemaining) {
+
+      _this.delayRemaining = options.delay;
+
+    }
+
+    _this.delayTimeout = setTimeout(endDelayAndContinue, _this.delayRemaining);
+
+  }
+
   this.stop = function() {
 
     _this.isRunning = false;
     _this.startTime = null;
     _this.endTime = null;
+    stopDelay();
 
   };
 
-  this.start = function() {
+  this.play = function() {
 
     _this.isRunning = true;
-    _this.startTime = Date.now();
-    _this.endTime = _this.startTime + _this.duration;
-    _this.tick();
+
+    if (options.delay) {
+
+      stopDelay();
+      startDelay();
+
+    } else {
+
+      _this.startTime = Date.now();
+      _this.endTime = _this.startTime + _this.duration;
+      _this.tick();
+
+    }
 
   };
 
   this.pause = function() {
 
     _this.isRunning = false;
-    _this.timeEllapsedBeforePause = Date.now() - _this.startTime;
+
+    if (options.delay && !_this.delayEnded) {
+
+      pauseDelay();
+
+    } else {
+
+      _this.timeEllapsedBeforePause = Date.now() - _this.startTime;
+
+    }
 
   };
 
   this.resume = function() {
 
     _this.isRunning = true;
-    _this.startTime = Date.now() - _this.timeEllapsedBeforePause;
-    _this.endTime = _this.startTime + _this.duration;
-    _this.tick();
+
+    if (options.delay && !_this.delayEnded) {
+
+      resumeDelay();
+
+    } else {
+
+      _this.startTime = Date.now() - _this.timeEllapsedBeforePause;
+      _this.endTime = _this.startTime + _this.duration;
+      _this.tick();
+
+    }
 
   };
 
   this.tick = function() {
 
-    if (!_this.isRunning) {
+    if (!_this.isRunning || (options.delay && !_this.delayEnded)) {
 
       return;
 
@@ -108,7 +202,7 @@ function DOMAnimate(startValue, endValue, lambda, options) {
   //start animation
   if (!options.autoplay) {
 
-    this.start();
+    this.play();
 
   }
 

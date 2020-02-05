@@ -4,11 +4,13 @@ Dead-simple helper function to perform any animation in the DOM or other environ
 Features:
 
 - Really small filesize, only 1 dependency (~2.5KB uncompressed, including dependency). 
+- Straightforward, simple API. 
 - Supports Beizer Curves and custom easing functions, with predefined values. 
 - Custom timing function (uses RAF by default if available) 
-- Custom render function 
-- Pause/resume/stop/restart animations. 
+- Pause/resume/stop/restart animations.
+- Supports delays that still work with pause/resume/stop/restart.
 - Animations respect the actual clock, so no matter the frame rate, the animation will still properly last the appropriate amount of time.
+- Lambda render functions.
 
 ## Installation
 
@@ -29,7 +31,7 @@ This includes all dependencies.
 <script>
     let el = document.querySelector('.myElement');
 
-    let animation = new DOMAnimate.Animator(0, 200, (x) => {
+    let animation = new DOMAnimate(0, 200, (x) => {
       el.style.height = x + 'px';
     });
 </script>
@@ -38,17 +40,16 @@ This includes all dependencies.
 ## Example Usage
 
 ```javascript
-let DOMAnimate = require('dom-animate');
-
-let el = document.querySelector('.myElement');
+const DOMAnimate = require('dom-animate');
+const el = document.querySelector('.myElement');
 
 //animate height from 0 to 200 with all defaults
-let animation = new DOMAnimate(0, 200, x => {
+const animation = new DOMAnimate(0, 200, x => {
   el.style.height = x + 'px';
 });
 
 //animate scale (with cross-browser support) from 1 to 2 with some options
-let animation = new DOMAnimate(1, 2, x => {
+const animation = new DOMAnimate(1, 2, x => {
   el.style.transform = `scale(${x}, ${x})`;
   el.style.webkitTransform = `scale(${x}, ${x})`;
 }, {
@@ -59,40 +60,69 @@ let animation = new DOMAnimate(1, 2, x => {
 });
 
 //animate with pre-defined easing constant
-let animation = new DOMAnimate(0, 200, x => {
+const animation = new DOMAnimate(0, 200, x => {
   el.style.height = x + 'px';
 }, {
   easing: DOMAnimate.EASING.LINEAR
 });
 
-//stop animation
+//stops animation. `play() or resume()` both play from the beginning.
 animation.stop();
 
-//restart animation after stopping
+//restarts animation after stopping
 animation.play();
 
-//pause animation
+//pauses animation
 animation.pause();
 
-//resume animation after pausing
+//resumes animation after pausing
 animation.resume();
 
-//don't animate right away. create animation, then play after 1s
-let animation = new DOMAnimate(0, 200, x => {
+//don't animate right away. create animation object, then play after 1s
+const animation = new DOMAnimate(0, 200, x => {
   el.style.height = x + 'px';
 }, {
   autoplay: false
 });
-
 setTimeout(animation.play, 1000);
 
 //provide a custom timing function instead of the default `window.requestAnimationFrame`
 //in this example, it tries to render at exactly 24fps
-let animation = new DOMAnimate(0, 200, (x) => {
+const animation = new DOMAnimate(0, 200, (x) => {
   el.style.height = x + 'px';
 }, {
   timingFunction: callback => { window.setTimeout(callback, 1000 / 24); }
 });
+```
+
+## Animation with delays
+
+You can think of a delay as just a part of the animation. It is respected by the pause/resume functionality all the same.
+
+```javascript
+const animation = new DOMAnimate(0, 1, x => {
+    document.getElementById('id').style.opacity = x;
+  }, {
+    precision: 3,
+    easing: [0.25, 0.46, 0.45, 0.9],
+    delay: 1000 //1s
+  });
+
+animation.pause(); //delay is paused.
+animation.resume(); //delay is resumed
+
+/* without autoplay */
+
+const animation = new DOMAnimate(0, 1, x => {
+    document.getElementById('id').style.opacity = x;
+  }, {
+    precision: 3,
+    easing: [0.25, 0.46, 0.45, 0.9],
+    delay: 1000, //1s
+    autoplay: false
+  });
+
+animation.start(); //delay starts now, along with rest of animation
 ```
 
 ## API
