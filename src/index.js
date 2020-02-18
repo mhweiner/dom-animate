@@ -44,7 +44,10 @@ function DOMAnimate(startValue, endValue, lambda, options) {
     _this.delayEnded = true;
     _this.delayRemaining = null;
     _this.delayStartTime = null;
-    _this.play();
+
+    _this.startTime = Date.now();
+    _this.endTime = _this.startTime + _this.duration;
+    _this.tick();
 
   }
 

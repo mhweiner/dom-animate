@@ -122,7 +122,7 @@ const animation = new DOMAnimate(0, 1, x => {
     autoplay: false
   });
 
-animation.start(); //delay starts now, along with rest of animation
+animation.play(); //delay starts now, along with rest of animation
 ```
 
 ## API
