@@ -1,7 +1,7 @@
 {
   "name": "dom-animate",
   "description": "Dead-simple helper function to do animations in DOM or other environments. Bezier curve support. Animations respect clock. Pause, resume, and cancel. Custom timing and render functions.",
-  "version": "6.0.2",
+  "version": "7.0.0",
   "main": "src/index.js",
   "umd": "dist/dom-animate.umd.js",
   "umdMin": "dist/dom-animate.min.umd.js",
