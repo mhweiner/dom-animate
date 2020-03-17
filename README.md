@@ -55,7 +55,6 @@ const animation = new DOMAnimate(1, 2, x => {
 }, {
   duration: 200,
   easing: [0.42, 0.0, 0.58, 1.0],
-  precision: 0,
   onComplete: () => alert('done!')
 });
 
@@ -103,7 +102,6 @@ You can think of a delay as just a part of the animation. It is respected by the
 const animation = new DOMAnimate(0, 1, x => {
     document.getElementById('id').style.opacity = x;
   }, {
-    precision: 3,
     easing: [0.25, 0.46, 0.45, 0.9],
     delay: 1000 //1s
   });
@@ -116,7 +114,6 @@ animation.resume(); //delay is resumed
 const animation = new DOMAnimate(0, 1, x => {
     document.getElementById('id').style.opacity = x;
   }, {
-    precision: 3,
     easing: [0.25, 0.46, 0.45, 0.9],
     delay: 1000, //1s
     autoplay: false
@@ -149,10 +146,6 @@ An optional map of parameters:
 ###### `{boolean} autoplay`
 
 If true, the animation will start as soon as `animation()` is called. [Default: `true`]
-
-###### `{integer} precision`
-
-Number of decimal places to round to. (Default: `null`)
 
 ###### `{integer} duration`
 
